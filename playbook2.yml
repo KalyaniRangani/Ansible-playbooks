@@ -1,0 +1,14 @@
+---
+  - name: installing git and cloning git repository
+    hosts: all
+    tasks: 
+      - name: installing git 
+        apt:
+          name: git
+          state: present
+          update_cache: yes
+      - name: cloning github repo
+        git:
+          repo: https://github.com/IntelliqDevops/maven.git
+          dest: /tmp/mygit
+...
