@@ -1,0 +1,19 @@
+---
+  - name: Creating a user hari and copying passwd file into home directory and changing the ownership
+    hosts: all
+    tasks:
+      - name: creating a user hari
+        user:
+          name: Hari
+          password: Hari
+          uid: 7093
+          comment: A normal user
+          home: /home/ubuntu/hari/user
+          shell: /bin/bash
+      - name: copying the passwd file to hari home directory and changing ownership
+        copy:
+          src: /etc/passwd
+          dest: passwordfile
+          owner: Hari
+          group: Hari
+...           

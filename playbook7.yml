@@ -1,0 +1,29 @@
+--- 
+ - name: Install apache2, change content in front page, restart the service and validate the URL
+   hosts: all
+   tasks:
+     - name: Installing apache2
+       apt:
+         name: apache2
+         state: present
+         update_cache: yes
+     - name: change the content in front page
+       copy:
+         content: Welcome kalyani!!!
+         dest: /var/www/html/index.html
+     - name: restarting the apache2 service
+       service:
+         name: apache2
+         state: restarted
+     - name: validating the server1 apache2 application
+       uri:
+         url: http://50.18.141.89
+         status_code: 200
+     - name: validating the server2 apache2 application
+       uri:
+         url: http://13.52.163.139
+         status_code: 200
+...
+
+         
+
