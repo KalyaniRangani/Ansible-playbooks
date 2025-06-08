@@ -1,0 +1,10 @@
+---
+ - name: installing firewalld software
+   hosts: web-servers
+   tasks:
+     - name: installing firewalld software
+       apt:
+         name: "{{a}}"
+         state: "{{b}}"
+         update_cache: "{{c}}"
+...

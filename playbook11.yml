@@ -1,0 +1,14 @@
+---
+ - name: Implementing play scope variables
+   hosts: all
+   vars:
+     a: tomcat10-admin
+     b: present
+     c: yes
+   tasks:
+     - name: installing tomcat10-admin
+       apt:
+         name: "{{a}}"
+         state: "{{b}}"
+         update_cache: "{{c}}"
+...

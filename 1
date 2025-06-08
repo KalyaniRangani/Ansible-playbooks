@@ -1,0 +1,23 @@
+---
+ - name: installing nginx and editing the front page and restarting the service
+   hosts: all
+   tasks:
+     - name: installing nginx
+       apt:
+         name: nginx
+         state: present
+         update_cache: yes 
+     - name: editing the front page
+       copy:
+         content: Welcome to nginx
+         dest: /usr/share/nginx/html/index.html
+       notify:
+         - Restart Nginx      
+   handlers:
+     - name: Restart Nginx
+       service:
+         name: nginx
+         state: restarted
+...
+
+
