@@ -1,0 +1,39 @@
+---
+ - name: Installing apache2 and httpd
+   hosts: all
+   tasks:
+     - block:
+         - name: installing apache2 on ubuntu servers
+           apt:
+             name: apache2
+             state: present
+             update_cache: yes
+       rescue:
+         - name: installing the httpd on red hat servers
+           yum:
+             `name: httpd
+             state: present
+             update_cache: yes
+     - name: Changing the content in first page
+       copy:
+         content: Welcome kalyani!!!
+         dest: /var/www/html/index.html
+     - block:
+         - name: Restart apache2 on ubuntu
+           service:
+             name: apache2
+             state: restarted
+       rescue:
+         - name: Restart httpd on red hat servers
+           service:
+             name: httpd
+             state: restarted
+     - name: validating the url
+       uri:
+         url: "{{item}}"
+         status_code: 200
+       with_items:
+         - http://172.31.13.87
+         - http://172.31.1.109
+         - http://172.31.9.225
+...   

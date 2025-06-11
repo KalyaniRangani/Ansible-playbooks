@@ -1,0 +1,17 @@
+---
+ - name: creating a folder after validating whether a file is available or not
+   hosts: all
+   tasks: 
+     - name: Validating the file details
+       stat:
+         path: /tmp/f3
+       register: a
+     - name: Displaying the stat details
+       debug:
+         var: a
+     - name: Creating a folder
+       file:
+         name: /tmp/f3
+         state: directory
+       when: a.stat.exists == false
+...

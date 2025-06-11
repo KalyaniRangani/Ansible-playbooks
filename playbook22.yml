@@ -1,0 +1,21 @@
+--- 
+ - name: installing the git software
+   hosts: all
+   tasks: 
+     - block:
+         - name: installing the git software on ubuntu servers
+           apt:
+             name: git
+             state: present
+             update_cache: yes
+       rescue:
+         - name: installing the git software on red hat servers
+           yum:
+             name: git
+             state: present
+             update_cache: yes
+       always:
+         - name: displaying the success message.
+           debug:
+             msg: "Git installation is successful on all servers"
+... 

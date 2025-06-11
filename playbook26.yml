@@ -1,0 +1,17 @@
+---
+ - name: Validating the file executable status
+   hosts: all
+   tasks:
+     - name: Checking the file status
+       stat:
+         path: /tmp/f3
+       register: a
+     - name: Displaying the file details
+       debug:
+         var: a
+     - name: Changing the execution status
+       file:
+         name: /tmp/f3
+         state: directory
+         mode: 0777
+       when: a.stat.mode != "0777"

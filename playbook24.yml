@@ -1,0 +1,13 @@
+---
+ - name: Creating a user
+   hosts: all
+   vars:
+     a: 10
+   tasks:
+     - name: creating a user
+       user:
+         name: ramya
+         password: ramya
+         home: /tmp/ramya
+       when: a==10
+... 
