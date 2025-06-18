@@ -1,0 +1,18 @@
+---
+ - name: Implementing the when condition
+   hosts: all
+   tasks:
+     - name: Getting the file details
+       stat:
+         path: /tmp/file3
+       register: a
+     - name: Displaying the file details
+       debug:
+         var: a
+     - name: changing the content of the file
+       copy:
+         content: Welcome!!!
+         dest: /tmp/file3
+       when: a.stat.exists == true 
+...
+       

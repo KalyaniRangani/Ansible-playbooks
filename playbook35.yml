@@ -1,0 +1,7 @@
+---
+ - name: Implementing the include tasks
+   hosts: all
+   tasks:
+     - name: copying the password file
+       include_tasks: playbook34.yml
+...

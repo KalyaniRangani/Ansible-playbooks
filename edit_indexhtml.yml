@@ -1,0 +1,6 @@
+---
+ - name: editing the index.html file
+   copy:
+     content: Welcome to apache2
+     dest: /var/www/html/index.html
+...

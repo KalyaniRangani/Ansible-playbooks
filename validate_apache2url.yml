@@ -1,0 +1,9 @@
+---
+ - name: validating the apache2 url
+   uri:
+     url: "{{item}}"
+   with_items:
+     - http://172.31.13.87
+     - http://172.31.1.109
+...
+

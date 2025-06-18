@@ -1,0 +1,17 @@
+--- 
+ - name: Implementing the different packages
+   hosts: all
+   tasks:
+     - block:
+         - name: Installing tree software on ubuntu servers
+           apt:
+             name: tree
+             state: present
+             update_cache: yes
+       rescue:
+         - name: Installing tree software on red hat servers
+           yum:
+             name: tree
+             state: present
+             update_cache: yes
+...

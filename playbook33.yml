@@ -1,0 +1,24 @@
+---
+- name: Implementing multiple tags
+  hosts: all
+  tasks: 
+    - name: installing git on all the servers
+      apt:
+        name: git
+        state: present
+        update_cache: yes
+      tags:
+        - install
+        - installing git
+    - name: installing tree on all the servers
+      apt:
+        name: tree
+        state: present
+      tags:
+        - install
+        - installing tree
+    - name: creating a user
+      user:
+        name: hari
+        password: hari
+...

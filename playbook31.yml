@@ -1,0 +1,17 @@
+---
+- name: Deleting the file if it is empty
+  hosts: all
+  tasks:
+    - name: Getting the file information
+      stat:
+        path: /tmp/file24
+      register: a
+    - name: Print the file information
+      debug:
+        var: a
+    - name: Deleting the file if it is empty
+      file:
+        name: /tmp/file24
+        state: absent
+      when: a.stat.size == 0
+...
