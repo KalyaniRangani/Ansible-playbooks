@@ -1,0 +1,73 @@
+---
+ - name: Installing required software in dev server
+   hosts: devserver
+   tasks:
+     - name: installing required software in dev server
+       apt:
+         name: "{{item.a}}"
+         state: "{{item.b}}"
+         update_cache: "{{item.c}}"
+       with_items:
+         - {a: git,b: present,c: yes}
+         - {a: maven,b: present,c: no}
+         - {a: openjdk-17-jdk,b: present,c: no}
+ - name: Installing required software in QA server
+   hosts: qaserver
+   tasks:
+     - name: Installing the required software in qa server
+       apt:
+         name: "{{item.a}}"
+         state: "{{item.b}}"
+         update_cache: "{{item.c}}"
+       with_items:
+         - {a: openjdk-17-jdk,b: present,c: yes}
+         - {a: git,b: present,c: no}
+         - {a: tomcat10,b: present,c: no}
+         - {a: tomcat10-admin,b: present,c: no}
+ - name: Installing required software in prod server
+   hosts: prodserver
+   tasks:
+     - name: Installing required software in prod server
+       apt:
+         name: "{{item.a}}"
+         state: "{{item.b}}"
+         update_cache: "{{item.c}}"
+       with_items:
+         - {a: tomcat10,b: present,c: yes}
+         - {a: tomcat10-admin,b: present,c: no}
+ - name: Implementing ci-cd flow in devserver
+   hosts: devserver
+   tasks:
+     - name: Implementing the continous download
+       git:
+         repo: https://github.com/IntelliqDevops/maven.git
+         dest: /home/ubuntu/dev-git
+     - name: building the artifact
+       shell: cd dev-git;mvn package
+     - name: Fetching the artifact file into controller machine
+       fetch:
+         src: dev-git/webapp/target/webapp.war
+         dest: /tmp
+ - name: Implemening the steps in qaserver
+   hosts: qaserver
+   tasks:
+     - name: implementing the continous deployment
+       copy:
+         src: /tmp/172.31.21.250/dev-git/webapp/target/webapp.war
+         dest: /var/lib/tomcat10/webapps/testapp.war
+     - name: Implementing testing scripts download
+       git:
+         repo: https://github.com/IntelliqDevops/FunctionalTesting.git
+         dest: /home/ubuntu/test-git
+     - name: Implementing the continous testing
+       shell: java -jar /home/ubuntu/test-git/testing.jar
+ - name: Implementing steps in Prodserver
+   hosts: prodserver
+   tasks:
+     - name: Implementing continous delivery
+       copy:
+         src: /tmp/172.31.21.250/dev-git/webapp/target/webapp.war
+         dest: /var/lib/tomcat10/webapps/prodapp.war
+
+...
+

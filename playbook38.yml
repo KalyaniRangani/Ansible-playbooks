@@ -1,0 +1,39 @@
+---
+ - name: Installing apache2 and httpd
+   hosts: all
+   tasks: 
+     - name: Installing apache2 on ubuntu servers
+       apt:
+         name: apache2
+         state: present
+         update_cache: yes
+       when: ansible_distribution == "Ubuntu"
+     - name: Installing httpd on Redhat servers
+       yum:
+         name: httpd
+         state: present
+         update_cache: yes
+       when: ansible_distribution == "RedHat"
+     - name: Editing the index.html page
+       copy:
+         content: Welcome to apache2 kalyani
+         dest: /var/www/html/index.html
+     - name: Restarting the apache2 service
+       service:
+         name: apache2
+         state: restarted
+       when: ansible_distribution == "Ubuntu"
+     - name: Restarting the httpd service
+       service:
+         name: httpd
+         state: restarted
+       when: ansible_distribution == "RedHat"
+     - name: Validating the service URL
+       uri:
+         url: "{{item}}"
+         status_code: 200
+       with_items:
+         - http://172.31.13.87
+         - http://172.31.1.109
+         - http://172.31.19.10
+...

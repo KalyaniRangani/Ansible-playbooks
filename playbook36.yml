@@ -1,0 +1,14 @@
+---
+ - name: Fetching OS information of remote servers
+   hosts: all
+   tasks:
+     - name: Fetching the OS information of remote servers
+       debug:
+         var: "{{ansible_distribution}}"
+     - name: Capturing the OS version
+       debug:
+         var: "{{ansible_distribution_version}}"
+     - name: Capturing the OS major version
+       debug:
+         var: "{{ansible_distribution_major_version}}"
+...
